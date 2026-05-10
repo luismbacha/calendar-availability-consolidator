@@ -26,6 +26,27 @@ graph TD
 
 ```
 
+### System Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User as Usuario (CLI)
+    participant App as App (Python)
+    participant Env as Windows Env Vars
+    participant YAML as config.yaml
+    participant GAPI as Google Calendar API
+
+    User->>App: Ejecuta con --start y --end
+    App->>App: Validar ventana < 24h
+    App->>YAML: Leer IDs de calendarios
+    App->>Env: Recuperar Credentials & Token
+    App->>GAPI: Query Free/Busy (Calendars ID)
+    GAPI-->>App: Listado de intervalos "busy"
+    App->>App: Fusionar intervalos solapados
+    App->>App: Calcular Gaps (Free Time)
+    App->>User: Mostrar Resumen y Bloques
+```
+
 ---
 
 # 2. TECH STACK
